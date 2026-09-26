@@ -1,54 +1,62 @@
-# Bandits multibrazo: experimentos del capítulo 2
+# Multi-Armed Bandits: Chapter 2 Experiments
 
-Implementación en Python de un entorno estacionario de $k$ brazos y de cuatro estrategias de selección de acciones: Greedy, ε-Greedy, límite superior de confianza (UCB) y bandido por gradiente. Código elaborado por Delena a partir de los conceptos y experimentos del capítulo 2 de Sutton y Barto (2018).
+A Python implementation of a stationary $k$-armed bandit environment and four action-selection methods: greedy, ε-greedy, upper confidence bound (UCB), and gradient bandit. Code written by Delena based on the concepts and experiments in Chapter 2 of Sutton and Barto (2018).
 
-## Modelo y experimentos
+## Model and experiments
 
-Para cada ejecución se generan $k=10$ valores verdaderos de acción:
+Each run samples the true action values for $k=10$ arms:
 
-$
-q_*(a) \sim \mathcal{N}(\mu, 1), \qquad
-R_t\mid A_t=a \sim \mathcal{N}(q_*(a), 1).
-$
-
-Cada experimento usa 2000 problemas independientes y 1000 pasos por problema. Todos los agentes de una ejecución comparten los mismos $q_*(a)$, pero tienen generadores independientes para sus decisiones y recompensas. Una semilla fija permite repetir los resultados.
-
-| Experimento | Estrategias | Parámetros principales |
-| --- | --- | --- |
-| Estándar ($\mu=0$) | Greedy, Greedy con valores iniciales optimistas, ε-Greedy y UCB | $Q_1(a)=5$ y $\alpha=0.1$ para la variante optimista; $\varepsilon=0.1$; $c=2$. Las otras estimaciones de valor usan promedio muestral. |
-| Gradiente ($\mu=4$) | Bandido por gradiente con y sin recompensa media como referencia | $\alpha=0.1$; referencia igual a la media de recompensas observadas o a cero. |
-
-Las dos gráficas de cada experimento muestran la recompensa promedio y el porcentaje de elecciones óptimas **en cada paso**:
-
-$
-\overline R_t=\frac{1}{M}\sum_{i=1}^{M}R_t^{(i)}, \qquad
-P_t=100\,\frac{1}{M}\sum_{i=1}^{M}
-\mathbf{1}\!\left\{A_t^{(i)}=\arg\max_a q_*^{(i)}(a)\right\},\quad M=2000.
-$
-
-La comparación agrupa estrategias que en el libro aparecen en distintas figuras del capítulo 2. El segundo experimento usa solo $\alpha=0.1$; por ello las gráficas **no son reproducciones exactas** de las figuras 2.2–2.5.
-
-## Ejecutar
-
-Requiere Python 3.10 o posterior. En la carpeta del proyecto:
-
-```bash
-python -m venv .venv
-python -m pip install -r requirements.txt
-python bandits.py
+```math
+q_{*}(a) \sim \mathcal{N}(\mu, 1), \qquad
+R_t \mid A_t=a \sim \mathcal{N}\bigl(q_{*}(a), 1\bigr).
 ```
 
-En Windows, se puede usar `py` en lugar de `python`. El programa abre dos figuras consecutivas; cierre la primera para ver la segunda. El número de ejecuciones y pasos puede ajustarse en `main()` para una prueba más rápida.
+Each experiment consists of 2,000 independent runs with 1,000 steps per run. Within a run, all agents face the same true action values $q_{*}(a)$, but use independent random number generators for action selection and rewards. Fixed seeds make the results reproducible.
 
-## Archivos
+| Experiment | Methods | Main parameters |
+| --- | --- | --- |
+| Standard ($\mu=0$) | Greedy, greedy with optimistic initial values, ε-greedy, and UCB | $Q_1(a)=5$ and $\alpha=0.1$ for optimistic greedy; $\varepsilon=0.1$; $c=2$. The other action-value estimates use sample averages. |
+| Gradient ($\mu=4$) | Gradient bandit with and without an average-reward baseline | $\alpha=0.1$; the baseline is either the observed average reward or zero. |
 
-- `bandits.py`: entorno, agentes, evaluación y visualizaciones.
-- `requirements.txt`: bibliotecas necesarias.
-- `.gitignore`: archivos locales excluidos del repositorio.
-- `LICENSE`: archivo de la licencia MIT.
+The two plots for each experiment show the mean reward and the percentage of optimal-action selections **at each step**:
 
-## Referencia
+```math
+\overline{R}_t
+= \frac{1}{M}\sum_{i=1}^{M} R_t^{(i)},
+\qquad
+P_t
+= \frac{100}{M}\sum_{i=1}^{M}
+\mathbf{1}\!\left\{
+A_t^{(i)} = \arg\max_a q_{*}^{(i)}(a)
+\right\},
+\qquad M=2000.
+```
 
-Sutton, R. S., & Barto, A. G. (2018). *Reinforcement Learning: An Introduction* (2.ª ed.), cap. 2. MIT Press. [Página de la editorial](https://mitpress.mit.edu/9780262352703/reinforcement-learning/).
+This comparison brings together methods shown in different figures in Chapter 2. The gradient experiment uses only $\alpha=0.1$; therefore, these plots are **not exact reproductions** of Figures 2.2–2.5.
 
-Este repositorio contiene una implementación independiente inspirada en el libro. El PDF del libro y sus figuras no forman parte del repositorio. El código de este repositorio se distribuye bajo la licencia MIT; consulta el archivo LICENSE
+## Run
+
+Requires Python 3.10 or later. From the project directory:
+
+**Windows (PowerShell):**
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe bandits.py
+```
+
+The program displays two figures in sequence; close the first one to view the second. To run a quicker experiment, reduce the number of runs and steps in `main()`.
+
+## Files
+
+- `bandits.py`: environment, agents, evaluation, and plots.
+- `requirements.txt`: required Python packages.
+- `.gitignore`: local files excluded from version control.
+- `LICENSE`: MIT License.
+
+## Reference
+
+Sutton, R. S., & Barto, A. G. (2018). *Reinforcement Learning: An Introduction* (2nd ed.), Chapter 2. MIT Press. [Publisher's page](https://mitpress.mit.edu/9780262352703/reinforcement-learning/).
+
+This repository contains an independent implementation inspired by the book. The book's PDF and figures are not included. The code is distributed under the MIT License; see `LICENSE`.
