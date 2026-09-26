@@ -6,10 +6,10 @@ Implementación en Python de un entorno estacionario de $k$ brazos y de cuatro e
 
 Para cada ejecución se generan $k=10$ valores verdaderos de acción:
 
-$$
+$
 q_*(a) \sim \mathcal{N}(\mu, 1), \qquad
 R_t\mid A_t=a \sim \mathcal{N}(q_*(a), 1).
-$$
+$
 
 Cada experimento usa 2000 problemas independientes y 1000 pasos por problema. Todos los agentes de una ejecución comparten los mismos $q_*(a)$, pero tienen generadores independientes para sus decisiones y recompensas. Una semilla fija permite repetir los resultados.
 
@@ -20,11 +20,11 @@ Cada experimento usa 2000 problemas independientes y 1000 pasos por problema. To
 
 Las dos gráficas de cada experimento muestran la recompensa promedio y el porcentaje de elecciones óptimas **en cada paso**:
 
-$$
+$
 \overline R_t=\frac{1}{M}\sum_{i=1}^{M}R_t^{(i)}, \qquad
 P_t=100\,\frac{1}{M}\sum_{i=1}^{M}
 \mathbf{1}\!\left\{A_t^{(i)}=\arg\max_a q_*^{(i)}(a)\right\},\quad M=2000.
-$$
+$
 
 La comparación agrupa estrategias que en el libro aparecen en distintas figuras del capítulo 2. El segundo experimento usa solo $\alpha=0.1$; por ello las gráficas **no son reproducciones exactas** de las figuras 2.2–2.5.
 
